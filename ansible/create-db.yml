@@ -1,0 +1,37 @@
+
+---
+- name: Create LearnSphere database and user
+  hosts: db_servers
+  become: true
+
+  vars:
+    db_name: learnsphere
+    db_user: learnsphere_user
+    # Replace this placeholder with a strong password
+    # before running the playbook.
+  vars_files:
+    - vault.yml
+
+  tasks:
+    - name: Install PostgreSQL Python adapter
+      ansible.builtin.apt:
+        name: python3-psycopg2
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Create LearnSphere database user
+      become_user: postgres
+      community.postgresql.postgresql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        state: present
+      no_log: true
+
+    - name: Create LearnSphere database
+      become_user: postgres
+      community.postgresql.postgresql_db:
+        name: "{{ db_name }}"
+        owner: "{{ db_user }}"
+        state: present
+

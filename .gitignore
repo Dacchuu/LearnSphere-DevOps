@@ -1,0 +1,34 @@
+# Secrets
+ansible/vault.yml
+*.pem
+.env
+.env.*
+!.env.example
+
+# Terraform generated files and state
+terraform/terraform.tfstate
+terraform/terraform.tfstate.*
+terraform/.terraform/
+terraform/crash.log
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# Generated container images
+app/learnsphere.tar
+*.tar
+
+# Python and editor files
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+
+# Environment-specific infrastructure configuration
+ansible/inventory.ini
+
+# Terraform local configuration and credentials
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# Local deployment artifacts
+*.log

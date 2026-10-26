@@ -1,0 +1,28 @@
+
+---
+- name: Configure database server
+  hosts: db_servers
+  become: true
+
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install PostgreSQL
+      ansible.builtin.apt:
+        name: postgresql
+        state: present
+
+    - name: Ensure PostgreSQL is running
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: true
+
+    - name: Verify PostgreSQL service
+      ansible.builtin.command:
+        cmd: systemctl is-active postgresql
+      changed_when: false
+

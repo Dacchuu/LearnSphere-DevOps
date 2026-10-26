@@ -1,0 +1,19 @@
+---
+- name: Deploy LearnSphere to application servers
+  hosts: app_servers
+  become: true
+
+  tasks:
+    - name: Copy application image archive
+      ansible.builtin.copy:
+        src: ../app/learnsphere.tar
+        dest: /tmp/learnsphere.tar
+        mode: "0644"
+
+    - name: Load application image
+      ansible.builtin.command:
+        cmd: docker load -i /tmp/learnsphere.tar
+
+    - name: Run LearnSphere container
+      ansible.builtin.command:
+        cmd: docker run -d --restart unless-stopped --name learnsphere -p 80:80 learnsphere:latest
