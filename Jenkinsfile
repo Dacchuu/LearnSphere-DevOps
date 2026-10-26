@@ -25,11 +25,13 @@ pipeline {
             }
         }
 
-        stage('Build Container Image') {
+       stage('Build Container Image') {
             steps {
                 sh '''
                     set -eu
                     podman build \
+                        --format oci \
+                        --layers=false \
                         -t learnsphere:${BUILD_NUMBER} \
                         -t learnsphere:latest \
                         app
