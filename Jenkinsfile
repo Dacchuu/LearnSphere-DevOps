@@ -44,8 +44,9 @@ pipeline {
                 sh '''
                     set -eu
                     podman save \
-                        -o "$DEPLOY_DIR/app/learnsphere.tar" \
-                        localhost/learnsphere:latest
+                       --format oci-archive \
+                       -o "$DEPLOY_DIR/app/learnsphere.tar" \
+                       localhost/learnsphere:latest
                     test -s "$DEPLOY_DIR/app/learnsphere.tar"
                     ls -lh "$DEPLOY_DIR/app/learnsphere.tar"
                 '''
